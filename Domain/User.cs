@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    class User
+    public class User
     {
-        public Guid id { get; set; }
+        public string id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ZipCode { get; set; }
         public string Email { get; set; }
         public float Income { get; set; }
+        public string PDF { get; set; }
     }
 }

@@ -9,7 +9,9 @@ namespace DAL
 {
     public interface IHouseRepository
     {
-        Task<PaginationItem<House>> GetHousesByPrice();
-        Task<IEnumerable<House>> GetHousesByPriceEF(float priceFrom, float priceTo, int size, string paginationToken);
+        IEnumerable<House> GetHouses();
+        House GetHouseById(string id);
+        IEnumerable<House> GetHousesByPriceRange(int priceFrom, int priceTo);
+        Task<House> AddHouse(House house);
     }
 }

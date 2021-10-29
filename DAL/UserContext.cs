@@ -4,9 +4,9 @@ using System;
 
 namespace DAL
 {
-    public class HouseContext : DbContext
+    public class UserContext : DbContext
     {
-        public DbSet<House> Houses { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseCosmos(
                Environment.GetEnvironmentVariable("ACCOUNT"),
@@ -15,9 +15,9 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<House>(e =>
+            modelBuilder.Entity<User>(e =>
             {
-                e.ToContainer("HouseContainer");
+                e.ToContainer("UserContainer");
                 e.HasKey(u => u.id);
                 e.HasNoDiscriminator();
                 e.HasPartitionKey(u => u.ZipCode);

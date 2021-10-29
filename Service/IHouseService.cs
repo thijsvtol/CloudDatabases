@@ -9,7 +9,9 @@ namespace Service
 {
     public interface IHouseService
     {
-        Task<PaginationItem<House>> GetHousesByPrice(float priceFrom, float priceTo, int size, string paginationToken);
-        Task<IEnumerable<House>> GetHousesByPriceEF(float priceFrom, float priceTo, int size, string paginationToken);
+        IEnumerable<House> GetHouses();
+        House GetHouseById(string id);
+        IEnumerable<House> GetHousesBetweenPrice(int priceFrom, int priceTo);
+        Task<House> AddHouse(House house);
     }
 }

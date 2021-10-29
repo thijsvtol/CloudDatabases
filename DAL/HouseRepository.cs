@@ -1,5 +1,4 @@
 ﻿using Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,20 +8,34 @@ namespace DAL
     public class HouseRepository : IHouseRepository
     {
 
-        private HouseContext _hContext;
+        private HouseContext _HouseContext;
 
-        public HouseRepository(HouseContext hContext)
+        public HouseRepository(HouseContext userContext)
         {
-            _hContext = hContext;
+            _HouseContext = userContext;
         }
 
-        public async Task<IEnumerable<House>> GetHousesPaginated(float priceFrom, float priceTo)
+        public IEnumerable<House> GetHouses()
         {
-            await _hContext.Database.EnsureDeletedAsync();
-            await _hContext.Database.EnsureCreatedAsync();
+            var users = _HouseContext.Houses.ToList();
+            return users;
+        }
 
-            var houses = _hContext.Houses.Where(h => priceFrom < h.Price && h.Price < priceTo);
-            return houses;
+        public House GetHouseById(string user)
+        {
+            return _HouseContext.Houses.Find(user);
+        }
+
+        public IEnumerable<House> GetHousesByPriceRange(int priceFrom, int priceTo)
+        {
+            return _HouseContext.Houses.Where(h => priceFrom < h.Price && h.Price < priceTo).ToList();
+        }
+
+        public async Task<House> AddHouse(House house)
+        {
+            _HouseContext.Add<House>(house);
+            await _HouseContext.SaveChangesAsync();
+            return house;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Domain
 {
     public class House
     {
-        public Guid id { get; set; }
+        public string id { get; set; }
         public float Price { get; set; }
         public double Title { get; set; }
         public string ZipCode { get; set; }

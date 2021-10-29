@@ -2,29 +2,38 @@
 using Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Service
 {
     public class HouseService : IHouseService
     {
+        private readonly IHouseRepository _HouseRepository;
 
-        public async Task<PaginationItem<House>> GetHousesByPrice(float priceFrom, float priceTo, int size, string paginationToken)
+        public HouseService(IHouseRepository houseRepository)
         {
-            throw new NotImplementedException();
+            _HouseRepository = houseRepository;
         }
 
-        public async Task<IEnumerable<House>> GetHousesByPriceEF(float priceFrom, float priceTo, int size, string paginationToken)
+        public IEnumerable<House> GetHouses()
         {
-            using (var context = new HouseContext())
-            {
-                await context.Database.EnsureDeletedAsync();
-                await context.Database.EnsureCreatedAsync();
+            return _HouseRepository.GetHouses();
+        }
 
-                var houses = context.Houses.Where(h => priceFrom < h.Price && h.Price < priceTo);
-                return await Task.FromResult(houses);
-            }
+        public House GetHouseById(string id)
+        {
+            return _HouseRepository.GetHouseById(id);
+        }
+
+        public IEnumerable<House> GetHousesBetweenPrice(int priceFrom, int priceTo)
+        {
+            return _HouseRepository.GetHousesByPriceRange(priceFrom, priceTo);
+        }
+
+        public async Task<House> AddHouse(House house)
+        {
+            house.id = Guid.NewGuid().ToString();
+            return await _HouseRepository.AddHouse(house);
         }
     }
 }

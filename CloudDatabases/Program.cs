@@ -12,18 +12,18 @@ namespace CloudDatabases
             var host = new HostBuilder()
                 .ConfigureServices(services =>
                 {
-                    // services
-                    services.AddTransient<IHouseService, HouseService>();
 
-                    // repos
+                    services.AddTransient<IUserService, UserService>();
+                    services.AddTransient<IMortgageService, MortgageService>();
+                    services.AddTransient<IHouseService, HouseService>();
+                    services.AddTransient<IUserRepository, UserRepository>();
                     services.AddTransient<IHouseRepository, HouseRepository>();
 
+                    services.AddDbContext<UserContext>();
+                    services.AddDbContext<MortgageContext>();
                     services.AddDbContext<HouseContext>();
 
-                    // cosmosdb setup
-                    // services.AddSingleton<ICosmosDbService<House>>(CosmosDbSetup<House>
-                    //     .InitializeCosmosClientInstanceAsync("CourseContainer", "/id")
-                    //     .GetAwaiter().GetResult());
+                    services.AddSingleton<IBlob, Blob>();
                 })
                 .ConfigureFunctionsWorkerDefaults()
                 .Build();
